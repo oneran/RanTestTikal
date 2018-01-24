@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#282828</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#FFECB3</color>
+
+    <color name="primaryText">#212121</color>
+    <color name="seconderyText">#757575</color>
+
+
+    <color name="orangeDark">#FFA000</color>
+    <color name="orang">#FFC107</color>
+    <color name="orangLight">#FFECB3</color>
+
+    <color name="title_green">#72a358</color>
+
+    <color name="title_text">#ffffff</color>
+
+</resources>
