@@ -15,6 +15,7 @@ import com.app.test.rantesttikal.adapter.MovieAdapter;
 import com.app.test.rantesttikal.data.MovieRepository;
 import com.app.test.rantesttikal.data.model.Movie;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -103,19 +104,31 @@ public class GalleryFragment extends Fragment implements MovieAdapter.OnMovieIte
         mAdapter = new MovieAdapter(getContext(), this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-
-        mRepository.getMovies(new MovieRepository.OnMoviesReadyCallback() {
-            @Override
-            public void onDataReady(ArrayList<Movie> movies) {
-                mAdapter.setMovieList(movies);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                //
-            }
-        });
+        mRepository.getMovies(new RepositoryCallBack(mAdapter));
     }
+
+    private static class RepositoryCallBack implements MovieRepository.OnMoviesReadyCallback {
+
+        private final WeakReference<MovieAdapter> movieAdapterWeakReference;
+
+        public RepositoryCallBack(MovieAdapter adapter){
+            this.movieAdapterWeakReference = new WeakReference<MovieAdapter>(adapter);
+        }
+
+        @Override
+        public void onDataReady(ArrayList<Movie> movies) {
+            MovieAdapter movieAdapter = movieAdapterWeakReference.get();
+            if(movieAdapter != null) {
+                movieAdapter.setMovieList(movies);
+            }
+        }
+
+        @Override
+        public void onDataNotAvailable() {
+            //
+        }
+    }
+
 
     @Override
     public void onDetach() {
