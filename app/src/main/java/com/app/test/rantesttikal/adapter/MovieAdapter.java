@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.app.test.rantesttikal.R;
 import com.app.test.rantesttikal.data.model.Movie;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movie = dataList.get(position);
         Glide.with(mContext)
             .load(movie.getPosterPath())
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .placeholder(R.color.colorAccent)
             .into(holder.imageView);
     }
