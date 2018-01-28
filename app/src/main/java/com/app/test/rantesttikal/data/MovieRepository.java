@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.app.test.rantesttikal.R;
 import com.app.test.rantesttikal.Utils.AppExecutors;
 import com.app.test.rantesttikal.Utils.NetManager;
 import com.app.test.rantesttikal.data.dao.ProtocolDao;
@@ -32,15 +33,14 @@ import retrofit2.Response;
 public class MovieRepository {
 
     private final static String TAG = MovieRepository.class.getSimpleName();
-    private final static String API_KEY = "6e87ff63eaa1e3d3a6dfbf27c0327825";
 
-    //private Context mAppContext;
+    private Context mAppContext;
     private NetManager netManager;
     private ProtocolDao mProtocolDao;
     private AppExecutors mAppExecutors;
 
     public MovieRepository(Context applicationContext) {
-        //mAppContext = applicationContext;
+        mAppContext = applicationContext;
         netManager = new NetManager(applicationContext);
         AppDatabase database = AppDatabase.getAppDatabase(applicationContext);
         mProtocolDao = database.protocolDao();
@@ -85,7 +85,7 @@ public class MovieRepository {
     private void getMoviesFromServer(@NonNull final OnMoviesReadyCallback callback) {
         TheMovieDbDataService service = RetrofitInstance.getRetrofitInstance().
                 create(TheMovieDbDataService.class);
-        Call<MoviesResponse> call = service.getMoviesData(API_KEY);
+        Call<MoviesResponse> call = service.getMoviesData(mAppContext.getString(R.string.the_movie_db_api_key));
         Log.wtf(TAG, "URL Called: " + call.request().url());
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
